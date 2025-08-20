@@ -1,5 +1,3 @@
-// В этом файле определения функций.
-// За основу возьмите решение предыдущей задачи.
 #include "calculator.h"
 
 #include <iostream>
@@ -27,16 +25,22 @@ bool ReadNumber(Number& result){
 
 bool RunCalculatorCycle(){
 
-    Number
-        active_number, /*хранит значение операций + и -, пока не встретится * или / */
-        number,/*хранит значение результата, который выводится после ввода "=" */
-        number_in_memory; /*хранит значение переменной в памяти, если введена команда s*/
+    // Переменная, в которую записывается считывание числа из потока ввода
+    Number active_number = 0; 
 
-    bool was_save = false; /*хранит флаг, было ли уже сохраненео какое либо число в number_in_memory*/
+    // Итоговое значение после всех операций 
+    Number number = 0; 
+
+    // хранит значение переменной в памяти, если введена команда s
+    Number number_in_memory = number; 
+    
+
+    // хранит флаг, было ли уже сохраненео какое либо число в number_in_memory
+    bool was_save = false; 
 
 
-
-    std::string operation; /*хранит значение одной операции*/
+    // хранит значение  операции
+    std::string operation; 
 
     if(!ReadNumber(number))
     {
@@ -53,10 +57,7 @@ bool RunCalculatorCycle(){
                     if(!ReadNumber(active_number)){
                         return false;
                     }
-                    else{
-
-                        number += active_number;
-                    }
+                    number += active_number;
                 }
 
                 // Обрабокта операции вычитание
@@ -64,9 +65,7 @@ bool RunCalculatorCycle(){
                     if(!ReadNumber(active_number)){
                         return false;
                     }
-                    else{
-                        number -= active_number;
-                    }
+                    number -= active_number;
                 }
 
                 // Обрабокта операции умножение
@@ -74,9 +73,7 @@ bool RunCalculatorCycle(){
                     if(!ReadNumber(active_number)){
                         return false;
                     }
-                    else{
-                        number *= active_number;
-                    }
+                    number *= active_number;
                 }
 
                 // Обрабокта операции деление
@@ -84,9 +81,7 @@ bool RunCalculatorCycle(){
                     if(!ReadNumber(active_number)){
                         return false;
                     }
-                    else{
-                        number /= active_number;
-                    }
+                    number /= active_number;
                 }
 
                 // Обрабокта операции возведение в степень
@@ -94,9 +89,7 @@ bool RunCalculatorCycle(){
                     if(!ReadNumber(active_number)){
                         return false;
                     }
-                    else{
-                        number = std::pow(number,active_number);
-                    }
+                    number = std::pow(number,active_number);
                 }
 
                 // Обрабокта операции вывода результата операций
@@ -109,9 +102,7 @@ bool RunCalculatorCycle(){
                     if(!ReadNumber(active_number)){
                         return false;
                     }
-                    else{
-                        number = active_number;
-                    }
+                    number = active_number;   
                 }
 
                 // Обрабокта операции обнуление

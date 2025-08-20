@@ -140,12 +140,12 @@ bool RunCalculatorCycle(){
                     }
                 }
 
-
+                // Обрабокта операции выхода из программы
                 else if(operation == "q"){
                     return true;
                 }
 
-
+                // Обрабокта ввода операции не задуманной системой
                 else{
                     std::cerr << "Error: Unknown token " << operation << std::endl;
                     return false;

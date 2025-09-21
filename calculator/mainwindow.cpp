@@ -24,7 +24,7 @@ void MainWindow::SetText(const QString &text){
     ui->l_result->setText(input_number_);
 }
 
-void MainWindow::SetActiveNumber(double number) {
+void MainWindow::SetActiveNumber(Number number) {
     active_number_ = number;
     ui->l_result->setText(QString::number(active_number_));
 }
@@ -99,12 +99,16 @@ void MainWindow::on_tb_comma_clicked()
 
 void MainWindow::on_tb_negate_clicked()
 {
-    if (input_number_.startsWith("-")){
-        SetText(input_number_.mid(1));
 
-    } else if (!input_number_.startsWith("-") && !input_number_.isEmpty()){
-        SetText("-" + input_number_);
-
+    if (input_number_.isEmpty()) {
+        active_number_ = -active_number_;
+        ui->l_result->setText(QString::number(active_number_));
+    } else {
+        if (input_number_.startsWith("-")) {
+            SetText(input_number_.mid(1));
+        } else if (!input_number_.startsWith("-") && !input_number_.isEmpty()) {
+            SetText("-" + input_number_);
+        }
     }
 }
 
@@ -218,7 +222,7 @@ void MainWindow::on_tb_equal_clicked(){
     current_operation_ = Operation::NO_OPERATION;
 }
 
-void MainWindow::Calculate(double number) {
+void MainWindow::Calculate(Number number) {
     switch (current_operation_) {
     case Operation::ADDITION:
         calculator_.Add(number);

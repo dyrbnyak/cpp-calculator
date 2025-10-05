@@ -269,27 +269,24 @@ void MainWindow::on_tb_equal_clicked(){
 void MainWindow::on_tb_reset_clicked(){
     if(control_cb_){
         control_cb_(ControlKey::CLEAR);
+        SetInputText("0");
     }
-
-    SetInputText("0");
 }
 
 
 void MainWindow::on_tb_ms_clicked(){
     if(control_cb_){
         control_cb_(ControlKey::MEM_SAVE);
+        ui->l_memory->setText("M");
     }
-
-    ui->l_memory->setText("M");
 }
 
 
 void MainWindow::on_tb_mc_clicked(){
     if(control_cb_){
         control_cb_(ControlKey::MEM_CLEAR);
+        ui->l_memory->setText("");
     }
-
-    ui->l_memory->setText("");
 }
 
 //Не знаю, почему, но в видео примере эта кнопка MR,

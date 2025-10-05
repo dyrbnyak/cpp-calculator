@@ -1,8 +1,12 @@
 #pragma once
 
 #include "calculator.h"
+#include "enums.h"
+#include <optional>
 
 #include <QMainWindow>
+
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,14 +14,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-enum Operation {
-    NO_OPERATION,  // Операция не задана
-    ADDITION,      // Плюс
-    SUBTRACTION,   // Минус
-    MULTIPLICATION,// Умножить
-    DIVISION,      // Поделить
-    POWER          // Возведение в степень
-};
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -26,8 +23,30 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+    //Методы изменения текста
+    void SetInputText(const std::string& text);
+
+    void SetErrorText(const std::string& text);
+
+    void SetFormulaText(const std::string& text);
+
+    void SetMemText(const std::string& text);
+
+    void SetExtraKey(const std::optional<std::string>& key);
+
+
+
+    //Методы установки колбэк-функций
+    void SetDigitKeyCallback(std::function<void(int key)> cb);
+
+    void SetProcessOperationKeyCallback(std::function<void(Operation key)> cb);
+
+    void SetProcessControlKeyCallback(std::function<void(ControlKey key)> cb);
+
+    void SetControllerCallback(std::function<void(ControllerType controller)> cb);
+
 private slots:
-    //Объявление функций для обработки кнопок с цифрами
+    //Кнопки цифр
     void on_tb_zero_clicked();
 
     void on_tb_one_clicked();
@@ -49,13 +68,19 @@ private slots:
     void on_tb_nine_clicked();
 
 
-    // Объявлении функция для обработки кнопок операций
-    void on_tb_comma_clicked();
+
+
+    //Кнопки действий
+    void on_tb_extra_clicked();
 
     void on_tb_negate_clicked();
 
     void on_tb_backspace_clicked();
 
+
+
+
+    //Кнопки операций
     void on_tb_power_clicked();
 
     void on_tb_divide_clicked();
@@ -70,44 +95,35 @@ private slots:
 
     void on_tb_reset_clicked();
 
+
+
+
+    //Кнопки работы с памятью
     void on_tb_ms_clicked();
 
     void on_tb_mc_clicked();
 
     void on_tn_mr_clicked();
 
+
+    //Обработка combobox
+    void on_cmb_controller_currentIndexChanged();
+
 private:
     Ui::MainWindow* ui;
 
-    void Calculate(Number number);
+    //Переменные для callback
+    std::function<void(Operation key)> operation_cb_;
 
-    QString input_number_;
+    std::function<void(int key)> digit_cb_;
 
-    Number active_number_;
+    std::function<void(ControlKey key)> control_cb_;
 
-    Operation current_operation_ = Operation::NO_OPERATION;
+    std::function<void(ControllerType controller)> controller_cb_;
 
-    //Калькулятор хранит некоторое число.
-    //Это число будет использоваться как левая часть выражения.
-    Calculator calculator_;
 
-    Number number_in_memory_;
-
-    bool was_save_number_in_memory_ = false;
-
+    //Методы преобразования
     QString RemoveTrailingZeroes(const QString &text);
 
     QString NormalizeNumber(const QString &text);
-
-    QString OpToString(Operation op);
-
-    //сохраняет результат в input_number_ и помещает его в l_result.
-    void SetText(const QString& text);
-
-    //допишет к input_number_ нужный текст и вызовет SetText.
-    void AddText(const QString& suffix);
-
-    void SetOperation(Operation op);
-
-    void SetActiveNumber(double number);
 };

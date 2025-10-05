@@ -21,8 +21,7 @@ public:
     };
 
     Rational(const Rational& r): numerator_(r.numerator_), denominator_(r.denominator_) {
-        Reduction();
-    }
+    };
 
     //Перегрузка операторов
     friend std::ostream& operator<<(std::ostream &os, const Rational& rational);

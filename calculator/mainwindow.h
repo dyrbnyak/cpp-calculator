@@ -1,129 +1,140 @@
 #pragma once
 
-#include "calculator.h"
-#include "enums.h"
-#include <optional>
-
 #include <QMainWindow>
+#include <QStringListModel>
+#include <QListWidgetItem>
+#include <random>
 
-
+#include "model.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
+namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class MainWindow : public QMainWindow
 
-
-class MainWindow : public QMainWindow {
+{
     Q_OBJECT
 
 public:
-    MainWindow(QWidget* parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    //Методы изменения текста
-    void SetInputText(const std::string& text);
+    void SetRandomGen(const std::mt19937& random_gen);
 
-    void SetErrorText(const std::string& text);
-
-    void SetFormulaText(const std::string& text);
-
-    void SetMemText(const std::string& text);
-
-    void SetExtraKey(const std::optional<std::string>& key);
-
-
-
-    //Методы установки колбэк-функций
-    void SetDigitKeyCallback(std::function<void(int key)> cb);
-
-    void SetProcessOperationKeyCallback(std::function<void(Operation key)> cb);
-
-    void SetProcessControlKeyCallback(std::function<void(ControlKey key)> cb);
-
-    void SetControllerCallback(std::function<void(ControllerType controller)> cb);
 
 private slots:
-    //Кнопки цифр
-    void on_tb_zero_clicked();
 
-    void on_tb_one_clicked();
+    //Методы
+    void on_btn_clear_clicked();
 
-    void on_tb_two_clicked();
+    void on_btn_push_front_clicked();
 
-    void on_tb_three_clicked();
+    void on_btn_pop_front_clicked();
 
-    void on_tb_four_clicked();
+    void on_btn_push_back_clicked();
 
-    void on_tb_five_clicked();
+    void on_btn_pop_back_clicked();
 
-    void on_tb_six_clicked();
+    void on_btn_insert_clicked();
 
-    void on_tb_seven_clicked();
-
-    void on_tb_eight_clicked();
-
-    void on_tb_nine_clicked();
+    void on_btn_erase_clicked();
 
 
 
 
-    //Кнопки действий
-    void on_tb_extra_clicked();
+    //Алгоритмы
+    void on_btn_min_el_clicked();
 
-    void on_tb_negate_clicked();
+    void on_btn_max_el_clicked();
 
-    void on_tb_backspace_clicked();
+    void on_btn_sort_clicked();
 
+    void on_btn_sOrT_clicked();
 
+    void on_btn_unique_clicked();
 
+    void on_btn_reverse_clicked();
 
-    //Кнопки операций
-    void on_tb_power_clicked();
+    void on_btn_shuffle_clicked();
 
-    void on_tb_divide_clicked();
+    void on_btn_lower_bound_clicked();
 
-    void on_tb_multiplicate_clicked();
-
-    void on_tb_substract_clicked();
-
-    void on_tb_add_clicked();
-
-    void on_tb_equal_clicked();
-
-    void on_tb_reset_clicked();
+    void on_btn_upper_bound_clicked();
 
 
 
+    //Итераторы
+    void on_btn_begin_clicked();
 
-    //Кнопки работы с памятью
-    void on_tb_ms_clicked();
+    void on_btn_end_clicked();
 
-    void on_tb_mc_clicked();
+    void on_btn_dec_iterator_clicked();
 
-    void on_tn_mr_clicked();
+    void on_btn_inc_iterator_clicked();
 
 
-    //Обработка combobox
-    void on_cmb_controller_currentIndexChanged();
+
+    //Слот list widget
+    void on_list_widget_currentRowChanged(int currentRow);
+
+
+
+    //Заготовки
+    void on_btn_tea_clicked();
+
+    void on_btn_cakes_clicked();
+
+
+
+
+
+    //Другие кнопки работы с очередью
+    void on_btn_edit_clicked();
+
+    void on_btn_resize_clicked();
+
+    void on_btn_find_clicked();
+
+    void on_btn_count_clicked();
 
 private:
-    Ui::MainWindow* ui;
+    //Методы применения изменений
+    void ApplyModel();
 
-    //Переменные для callback
-    std::function<void(Operation key)> operation_cb_;
+    void ApplyIterator();
 
-    std::function<void(int key)> digit_cb_;
-
-    std::function<void(ControlKey key)> control_cb_;
-
-    std::function<void(ControllerType controller)> controller_cb_;
+    void SetAbleDisableBtn();
 
 
-    //Методы преобразования
-    QString RemoveTrailingZeroes(const QString &text);
+private:
+    Model deque_model_;
+    std::mt19937 random_gen_;
+    Ui::MainWindow *ui;
+};
 
-    QString NormalizeNumber(const QString &text);
+static std::deque<std::string> tea {
+    "Чай Лунцзин",
+    "Эрл Грей",
+    "Сенча",
+    "Пуэр",
+    "Дарджилинг",
+    "Ассам",
+    "Матча",
+    "Ганпаудер",
+    "Оолонг",
+    "Лапсанг Сушонг"
+};
+
+static std::deque<std::string> cakes {
+    "Красный бархат",
+    "Наполеон",
+    "Медовик",
+    "Тирамису",
+    "Прага",
+    "Чизкейк",
+    "Захер",
+    "Эстерхази",
+    "Морковный торт",
+    "Чёрный лес",
 };
